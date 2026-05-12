@@ -28,7 +28,8 @@ fun ProductDetailScreen(
     viewModel: MainViewModel,
     onBack: () -> Unit,
     onBuyNow: (Int) -> Unit,
-    onLoginRequired: () -> Unit
+    onLoginRequired: () -> Unit,
+    onCartClick: () -> Unit
 ) {
     val product = remember(productId) { ProductRepository.getProductById(productId) }
     val cartCount = viewModel.cartCount
@@ -49,7 +50,7 @@ fun ProductDetailScreen(
                 showBack = true,
                 onBack = onBack,
                 cartCount = cartCount,
-                onCartClick = { /* Navigate to cart or just handle via ViewModel */ }
+                onCartClick = onCartClick
             )
         },
         bottomBar = {

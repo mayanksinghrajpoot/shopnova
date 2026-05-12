@@ -159,7 +159,7 @@ fun LoginScreen(
 
                 if (!isSignUp) {
                     TextButton(
-                        onClick = {},
+                        onClick = { errorMsg = "Forgot password feature coming soon!" },
                         modifier = Modifier.align(Alignment.End)
                     ) {
                         Text("Forgot Password?", color = NovaDeepTeal, fontSize = 13.sp)
@@ -210,8 +210,8 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    SocialButton("G  Google", modifier = Modifier.weight(1f))
-                    SocialButton("f  Facebook", modifier = Modifier.weight(1f))
+                    SocialButton("G  Google", onClick = { errorMsg = "Google login coming soon!" }, modifier = Modifier.weight(1f))
+                    SocialButton("f  Facebook", onClick = { errorMsg = "Facebook login coming soon!" }, modifier = Modifier.weight(1f))
                 }
             }
         }
@@ -262,9 +262,9 @@ fun NovaTextField(
 }
 
 @Composable
-fun SocialButton(label: String, modifier: Modifier = Modifier) {
+fun SocialButton(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     OutlinedButton(
-        onClick = {},
+        onClick = onClick,
         modifier = modifier.height(48.dp),
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(1.dp, NovaDivider)

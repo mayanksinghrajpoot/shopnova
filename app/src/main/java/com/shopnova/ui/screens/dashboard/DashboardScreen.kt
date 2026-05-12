@@ -38,7 +38,9 @@ import com.shopnova.viewmodel.MainViewModel
 fun DashboardScreen(
     viewModel: MainViewModel,
     onProductClick: (Int) -> Unit,
-    onLoginClick: () -> Unit
+    onLoginClick: () -> Unit,
+    onCartClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
@@ -83,7 +85,7 @@ fun DashboardScreen(
                 }
                 Row {
                     // Profile / Login
-                    IconButton(onClick = if (isLoggedIn) ({}) else onLoginClick) {
+                    IconButton(onClick = if (isLoggedIn) onProfileClick else onLoginClick) {
                         Icon(
                             if (isLoggedIn) Icons.Filled.AccountCircle else Icons.Filled.Person,
                             contentDescription = "Account",
@@ -93,7 +95,7 @@ fun DashboardScreen(
                     }
                     // Cart
                     Box {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = onCartClick) {
                             Icon(Icons.Filled.ShoppingCart, "Cart", tint = Color.White, modifier = Modifier.size(26.dp))
                         }
                         if (viewModel.cartCount > 0) {
@@ -213,7 +215,7 @@ fun DashboardScreen(
 
             // BANNER
             item {
-                PromoBanner()
+                PromoBanner(onShopNowClick = { searchQuery = it })
             }
 
             // CATEGORIES
@@ -249,7 +251,7 @@ fun DashboardScreen(
 
             // DEALS OF THE DAY
             item {
-                DealsBanner()
+                DealsBanner(onProductClick = onProductClick)
             }
 
             // BEST SELLERS
@@ -307,7 +309,7 @@ fun DashboardScreen(
 }
 
 @Composable
-fun PromoBanner() {
+fun PromoBanner(onShopNowClick: (String) -> Unit) {
     val banners = listOf(
         Triple("Summer Sale 🌞", "Up to 70% off on Fashion", Brush.horizontalGradient(listOf(Color(0xFF0D6E6E), Color(0xFF1A9696)))),
         Triple("Electronics Fest ⚡", "Deals starting ₹499", Brush.horizontalGradient(listOf(Color(0xFF1565C0), Color(0xFF42A5F5)))),
@@ -340,6 +342,10 @@ fun PromoBanner() {
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
                     .background(Color.White.copy(0.2f))
+                    .clickable { 
+                        // Navigate to a relevant category or search
+                        onShopNowClick("Sale")
+                    }
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Text("Shop Now →", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 13.sp)
@@ -364,7 +370,7 @@ fun PromoBanner() {
 }
 
 @Composable
-fun DealsBanner() {
+fun DealsBanner(onProductClick: (Int) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -389,6 +395,7 @@ fun DealsBanner() {
                             .size(60.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .background(Color.White.copy(0.2f))
+                            .clickable { onProductClick(p.id) }
                     ) {
                         AsyncImage(
                             model = p.imageUrl,

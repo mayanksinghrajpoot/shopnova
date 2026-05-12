@@ -30,6 +30,12 @@ fun NavGraph(
                 },
                 onLoginClick = {
                     navController.navigate(Screen.Login.route)
+                },
+                onCartClick = {
+                    navController.navigate(Screen.Cart.route)
+                },
+                onProfileClick = {
+                    navController.navigate(Screen.Profile.route)
                 }
             )
         }
@@ -60,6 +66,32 @@ fun NavGraph(
                 },
                 onLoginRequired = {
                     navController.navigate(Screen.Login.route)
+                },
+                onCartClick = {
+                    navController.navigate(Screen.Cart.route)
+                }
+            )
+        }
+
+        composable(Screen.Cart.route) {
+            com.shopnova.ui.screens.cart.CartScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onCheckout = { productId, quantity ->
+                    navController.navigate(Screen.Billing.createRoute(productId, quantity))
+                },
+                onProductClick = { productId ->
+                    navController.navigate(Screen.ProductDetail.createRoute(productId))
+                }
+            )
+        }
+
+        composable(Screen.Profile.route) {
+            com.shopnova.ui.screens.profile.ProfileScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onLogout = {
+                    navController.popBackStack(Screen.Dashboard.route, false)
                 }
             )
         }

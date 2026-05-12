@@ -132,7 +132,19 @@ fun OrderSuccessScreen(onContinueShopping: () -> Unit) {
 
         Spacer(Modifier.height(12.dp))
 
-        TextButton(onClick = {}) {
+        var showTrackMsg by remember { mutableStateOf(false) }
+        
+        if (showTrackMsg) {
+            Text(
+                "Tracking logic will be implemented here!",
+                color = NovaDeepTeal,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        TextButton(onClick = { showTrackMsg = true }) {
             Text("Track Order", color = Color.White.copy(0.8f), fontSize = 14.sp)
         }
     }
